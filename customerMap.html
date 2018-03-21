@@ -1,0 +1,63 @@
+<html>
+<head>
+	<script src="http://maps.google.com/maps/api/js?sensor=false" 
+          type="text/javascript"></script>
+<meta name="author" content="Shubham Shah">
+</head>
+<body>
+
+<p>Click the button to add a new element to the array.</p>
+<input type="text" id="p_address">
+<button onclick="myFunction()">Try it</button>
+
+<p id="demo"></p>
+
+<div id="map" style="height: 500px;width: 500px">
+</div>
+<script>
+//var fruits = [['Shivshrusti Kurla', 19.055559,72.883548, 4],['Thane', 19.19824,72.949009, 14]];
+var fruits =[];
+document.getElementById("demo").innerHTML = fruits;
+var count=1;
+function myFunction() {
+
+	var tempLoc=document.getElementById('p_address').value.split(',');
+	//alert("Lenght Before:"+fruits.length);
+	console.log("Before Addition:"+fruits);
+    //fruits.push("Solapur, 18.5608921,73.8906296, 14");
+    fruits.push(["Location "+count, ""+tempLoc[0], ""+tempLoc[1],"14"]);
+    alert("Lenght After:"+fruits.length);
+    console.log("After Addition:"+fruits);
+    document.getElementById("demo").innerHTML = fruits;
+
+    var map = new google.maps.Map(document.getElementById('map'), {
+					zoom: 10,
+					center: new google.maps.LatLng(19.0825223,72.7410978),
+					mapTypeId: google.maps.MapTypeId.ROADMAP
+					});
+
+					var infowindow = new google.maps.InfoWindow();
+
+					var marker, i;
+
+					for (i = 0; i < fruits.length; i++) {  
+						console.log("fruits[i][1]:"+fruits[i][1]+":"+i);
+						console.log("fruits[i][2]):"+fruits[i][2]+":"+i);
+					marker = new google.maps.Marker({
+					position: new google.maps.LatLng(fruits[i][1], fruits[i][2]),
+					map: map
+					});
+
+					google.maps.event.addListener(marker, 'click', (function(marker, i) {
+					return function() {
+					infowindow.setContent(fruits[i][0]);
+					infowindow.open(map, marker);
+					}
+					})(marker, i));
+					}
+	count++;
+}
+</script>
+
+</body>
+</html>
